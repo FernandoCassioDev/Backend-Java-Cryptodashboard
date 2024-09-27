@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cryptodashboard.Cryptodashboard.service.CryptoService;
@@ -21,9 +22,11 @@ public class CryptoController {
   }
 
   @GetMapping("/cryptos")
-  public Mono<List<Map<String, Object>>> getCryptos(@RequestHeader("X-coinAPI-Key") String apiKey) {
+  public Mono<List<Map<String, Object>>> getCryptos(
+    @RequestHeader("X-coinAPI-Key") String apiKey,
+    @RequestParam(defaultValue = "10") double minPrice) {
 
-    return cryptoService.getCryptoPricesInUSD(apiKey);
+    return cryptoService.getCryptoPricesInUSD(apiKey, minPrice);
   }
 
 }
